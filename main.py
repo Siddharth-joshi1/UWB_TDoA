@@ -16,7 +16,7 @@ for idx, p in enumerate(points):
     point_errors = []
 
     for _ in range(MC_RUNS):
-        tdoa = generate_tdoa(p, ANCHORS)
+        tdoa = generate_tdoa(p, ANCHORS,sync_error_std=1e-9)
         est = solve_tdoa(ANCHORS, tdoa)
 
         err = compute_error(p, est)
@@ -35,5 +35,5 @@ for idx, p in enumerate(points):
 errors = np.array(errors)
 
 plot_heatmap(points, errors, title="TDoA Localization Error (Averaged)")
-plot_3d_surface(points, errors, title="TDoA Error Surface")
+# plot_3d_surface(points, errors, title="TDoA Error Surface")
 print("done")

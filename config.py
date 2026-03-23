@@ -14,6 +14,7 @@ ANCHORS = np.array([
 ])
 
 NOISE_STD = 0.1e-9
+SYNC_ERROR_STD=1e-9
 SYNC_ERROR_LIST = [
     0,
     0.5e-9,
