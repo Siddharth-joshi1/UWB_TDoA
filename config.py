@@ -14,7 +14,14 @@ ANCHORS = np.array([
 ])
 
 NOISE_STD = 0.1e-9
-SYNC_ERROR_STD = 1e-9
+SYNC_ERROR_LIST = [
+    0,
+    0.5e-9,
+    1e-9,
+    2e-9,
+    5e-9,
+    10e-9
+]
 
 MC_RUNS = 100   # Monte Carlo runs
 MAX_ERROR = 10  # cap error for visualization

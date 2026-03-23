@@ -1,13 +1,13 @@
 # tdoa.py
 import numpy as np
-from config import C, NOISE_STD, SYNC_ERROR_STD
+from config import C, NOISE_STD, SYNC_ERROR_LIST
 
-def generate_tdoa(point, anchors):
+def generate_tdoa(point, anchors, sync_error_std):
     d = np.linalg.norm(anchors - point, axis=1)
     t = d / C
 
     noise = np.random.normal(0, NOISE_STD, size=t.shape)
-    sync_error = np.random.normal(0, SYNC_ERROR_STD, size=t.shape)
+    sync_error = np.random.normal(0, sync_error_std, size=t.shape)
 
     t_noisy = t + noise + sync_error
 
