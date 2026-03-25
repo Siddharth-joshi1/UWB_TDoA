@@ -1,14 +1,14 @@
 # main.py
 import numpy as np
-from config import AREA_SIZE, GRID_RES, ANCHORS, MC_RUNS, MAX_ERROR
+from config import AREA_SIZE, HEIGHT, GRID_RES, ANCHORS, MC_RUNS, MAX_ERROR
 from geometry import generate_grid
 from tdoa import generate_tdoa
 from solver import solve_tdoa
 from metrics import compute_error
 from visualization import plot_heatmap
-from visualization import plot_3d_surface
+from visualization import plot_3d_surface,plot_3d_points
 
-points = generate_grid(AREA_SIZE, GRID_RES)
+points = generate_grid(AREA_SIZE, HEIGHT, GRID_RES)
 
 errors = []
 
@@ -34,6 +34,8 @@ for idx, p in enumerate(points):
 
 errors = np.array(errors)
 
-plot_heatmap(points, errors, title="TDoA Localization Error (Averaged)")
+# plot_heatmap(points, errors, title="TDoA Localization Error (Averaged)")
 # plot_3d_surface(points, errors, title="TDoA Error Surface")
+
+plot_3d_points(points, errors)
 print("done")

@@ -4,13 +4,22 @@ import numpy as np
 C = 3e8  # speed of light (m/s)
 
 AREA_SIZE = 5
+HEIGHT = 3 
 GRID_RES = 0.2
 
+# ANCHORS = np.array([
+#     [0, 0],
+#     [5, 0],
+#     [5, 5],
+#     [0, 5]
+# ])
+
+
 ANCHORS = np.array([
-    [0, 0],
-    [5, 0],
-    [5, 5],
-    [0, 5]
+    [0, 0, 2],
+    [5, 0, 2],
+    [5, 5, 2],
+    [0, 5, 2]
 ])
 
 NOISE_STD = 0.1e-9

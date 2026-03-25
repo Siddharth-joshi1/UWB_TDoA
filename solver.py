@@ -30,9 +30,11 @@ def jacobian(x, anchors):
 def solve_tdoa(anchors, tdoa):
     initial_guesses = [
         np.mean(anchors, axis=0),
-        np.array([1,1]),
-        np.array([4,4]),
-        np.array([2.5,2.5])
+        # np.array([1,1]),
+        # np.array([4,4]),
+        # np.array([2.5,2.5])
+        np.array([2,2,1]),
+        np.array([3,3,1])
     ]
 
     for x0 in initial_guesses:

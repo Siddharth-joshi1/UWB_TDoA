@@ -1,11 +1,13 @@
 # geometry.py
 import numpy as np
 
-def generate_grid(area_size, resolution):
+def generate_grid(area_size,height, resolution):
     x = np.arange(0, area_size, resolution)
     y = np.arange(0, area_size, resolution)
-    xv, yv = np.meshgrid(x, y)
-    return np.vstack([xv.ravel(), yv.ravel()]).T
+    z = np.arange(0, height, resolution)
+
+    xv, yv,zv = np.meshgrid(x, y,z)
+    return np.vstack([xv.ravel(), yv.ravel(), zv.ravel()]).T
 
 
 def compute_distances(point, anchors):

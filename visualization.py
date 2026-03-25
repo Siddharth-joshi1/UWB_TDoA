@@ -38,3 +38,27 @@ def plot_3d_surface(points, values, title="3D Error Surface"):
 
     plt.tight_layout()
     plt.show()
+
+
+def plot_3d_points(points, errors):
+
+    fig = plt.figure(figsize=(8,6))
+    ax = fig.add_subplot(111, projection='3d')
+
+    mask = ~np.isnan(errors)
+
+    sc = ax.scatter(
+        points[mask,0],
+        points[mask,1],
+        points[mask,2],
+        c=errors[mask],
+        cmap='viridis'
+    )
+
+    plt.colorbar(sc, label="Error (m)")
+
+    ax.set_xlabel("X")
+    ax.set_ylabel("Y")
+    ax.set_zlabel("Z")
+
+    plt.show()
