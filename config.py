@@ -7,6 +7,12 @@ AREA_SIZE = 5
 HEIGHT = 3 
 GRID_RES = 0.2
 
+#PHY parameters
+FS = 5e9   # sampling rate (5 GHz)
+PULSE_WIDTH = 1e-9
+NOISE_STD_PHY = 0.01
+
+
 # ANCHORS = np.array([
 #     [0, 0],
 #     [5, 0],
@@ -33,5 +39,5 @@ SYNC_ERROR_LIST = [
     10e-9
 ]
 
-MC_RUNS = 100   # Monte Carlo runs
+MC_RUNS = 10   # Monte Carlo runs
 MAX_ERROR = 10  # cap error for visualization

@@ -1,12 +1,13 @@
 # main.py
 import numpy as np
-from config import AREA_SIZE, HEIGHT, GRID_RES, ANCHORS, MC_RUNS, MAX_ERROR
+from config import AREA_SIZE, FS, HEIGHT, GRID_RES, ANCHORS, MC_RUNS, MAX_ERROR
 from geometry import generate_grid
 from tdoa import generate_tdoa
 from solver import solve_tdoa
 from metrics import compute_error
 from visualization import plot_heatmap
 from visualization import plot_3d_surface,plot_3d_points
+from config import FS
 
 points = generate_grid(AREA_SIZE, HEIGHT, GRID_RES)
 
@@ -16,7 +17,12 @@ for idx, p in enumerate(points):
     point_errors = []
 
     for _ in range(MC_RUNS):
-        tdoa = generate_tdoa(p, ANCHORS,sync_error_std=1e-9)
+        # tdoa = generate_tdoa(p, ANCHORS,sync_error_std=1e-9)
+
+        #phy:
+        tdoa = generate_tdoa(p, ANCHORS, fs=FS)
+
+
         est = solve_tdoa(ANCHORS, tdoa)
 
         err = compute_error(p, est)
