@@ -7,11 +7,12 @@ This project implements Ultra-Wideband (UWB) localization using Time Difference 
 ## Method
 
 TDoA measurements define hyperbolic equations:
-[
-d_i - d_j = c \cdot (t_i - t_j)
-]
-These are solved using numerical methods such as least squares to estimate position.
 
+$$
+d_i - d_j = c (t_i - t_j)
+$$
+
+These are solved using numerical methods such as least squares to estimate position.
 ## Features
 
 * TDoA-based localization
