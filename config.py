@@ -8,7 +8,17 @@ HEIGHT = 3
 GRID_RES = 0.2
 
 #PHY parameters
-FS = 5e9   # sampling rate (5 GHz)
+# PHY parameters
+
+FS = 1e9
+NOISE_STD_PHY = 0.01
+
+MULTIPATH_MIN = 2
+MULTIPATH_MAX = 5
+
+NLOS_PROB = 1.0
+
+PATH_LOSS_EXP = 2
 PULSE_WIDTH = 1e-9
 NOISE_STD_PHY = 0.01
 

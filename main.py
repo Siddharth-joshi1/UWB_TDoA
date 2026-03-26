@@ -8,6 +8,7 @@ from metrics import compute_error
 from visualization import plot_heatmap
 from visualization import plot_3d_surface,plot_3d_points
 from config import FS
+from numerical_results import compute_metrics, plot_cdf, print_metrics, save_metrics
 
 points = generate_grid(AREA_SIZE, HEIGHT, GRID_RES)
 
@@ -39,9 +40,13 @@ for idx, p in enumerate(points):
     errors.append(avg_error)
 
 errors = np.array(errors)
+metrics = compute_metrics(errors)
+
+print_metrics(metrics)
 
 # plot_heatmap(points, errors, title="TDoA Localization Error (Averaged)")
 # plot_3d_surface(points, errors, title="TDoA Error Surface")
-
+save_metrics(metrics)
+plot_cdf(errors)
 plot_3d_points(points, errors)
 print("done")

@@ -28,8 +28,16 @@ from toa_estimator import estimate_toa
 # tdoa.py
 
 
+# tdoa.py
 
-def generate_tdoa(point, anchors, fs=5e9):
+import numpy as np
+from config import C
+from phy import generate_uwb_signal
+from toa_estimator import estimate_toa
+from channel import add_nlos_bias
+
+
+def generate_tdoa(point, anchors, fs=1e9):
 
     toas = []
 
@@ -39,11 +47,14 @@ def generate_tdoa(point, anchors, fs=5e9):
 
         delay = d / C
 
+        delay = add_nlos_bias(delay)
+
         signal = generate_uwb_signal(
             delay,
-            fs=5e9,
-            duration=2e-8,
-            noise_std=0.01,distance=d
+            d,
+            fs,
+            duration=1e-7,
+            noise_std=0.01
         )
 
         toa = estimate_toa(signal, fs)
