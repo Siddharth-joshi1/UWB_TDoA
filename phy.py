@@ -1,36 +1,43 @@
-# phy.py
+# phy.py  –  Simplified single-pulse UWB signal generation.
+# Reverted to single-pulse model (preamble caused 4 cross-correlation ghost
+# peaks from single-pulse template, inflating TOA error to 80+ ns).
+# Path-loss exponent reduced to 1.5 (indoor) to keep adequate SNR.
 
 import numpy as np
-from channel import generate_multipath, generate_amplitudes, apply_path_loss
+from channel import generate_multipath, generate_amplitudes
 
 
 def gaussian_pulse(t, sigma=1e-9):
+    return np.exp(-(t ** 2) / (2 * sigma ** 2))
 
-    return np.exp(-(t**2) / (2*sigma**2))
 
+def generate_uwb_signal(delay: float, distance: float,
+                        fs: float, duration: float,
+                        noise_std: float) -> np.ndarray:
+    """
+    Single 2-ns Gaussian pulse at 'delay' seconds, with multipath echoes,
+    indoor path loss, and AWGN.
+    Duration is long enough to contain the full pulse + propagation.
+    """
+    n_samples = max(1, round(duration * fs))
+    signal    = np.zeros(n_samples)
 
-def generate_uwb_signal(delay, distance, fs, duration, noise_std):
+    sigma = 1e-9
+    half  = int(5 * sigma * fs) + 1
 
-    t = np.arange(0, duration, 1/fs)
+    path_delays = generate_multipath(delay, num_paths=np.random.randint(2, 4))
+    path_amps   = generate_amplitudes(len(path_delays))
 
-    signal = np.zeros_like(t)
+    for pd, pa in zip(path_delays, path_amps):
+        center = int(pd * fs)
+        for k in range(-half, half + 1):
+            idx = center + k
+            if 0 <= idx < n_samples:
+                signal[idx] += pa * gaussian_pulse(k / fs, sigma)
 
-    delays = generate_multipath(delay, num_paths=np.random.randint(2,6))
+    # Indoor path loss  (exp=1.5 keeps SNR reasonable at 3-7 m)
+    path_loss = 1.0 / (max(distance, 0.5) ** 1.5)
+    signal   *= path_loss
 
-    amps = generate_amplitudes(len(delays))
-
-    for d, a in zip(delays, amps):
-
-        shift = int(d * fs)
-
-        pulse = gaussian_pulse(np.arange(-5e-9,5e-9,1/fs))
-
-        if shift + len(pulse) < len(signal):
-
-            signal[shift:shift+len(pulse)] += a * pulse
-
-    signal = apply_path_loss(distance, signal)
-
-    noise = np.random.normal(0, noise_std, len(signal))
-
-    return signal + noise
+    signal += np.random.normal(0, noise_std, n_samples)
+    return signal

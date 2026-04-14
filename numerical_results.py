@@ -7,6 +7,18 @@ def compute_metrics(errors):
 
     valid = errors[np.isfinite(errors)]
 
+    # Safety check
+    if len(valid) == 0:
+        return {
+            "Mean Error (m)": np.nan,
+            "RMSE (m)": np.nan,
+            "Std Dev (m)": np.nan,
+            "90% Error (m)": np.nan,
+            "95% Error (m)": np.nan,
+            "Max Error (m)": np.nan,
+            "Failure Rate": 1.0
+        }
+
     mean_error = np.mean(valid)
     rmse = np.sqrt(np.mean(valid**2))
     std = np.std(valid)
